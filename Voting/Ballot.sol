@@ -34,7 +34,7 @@ contract Ballot {
     function giveRightToVoter(address voter) external {
         require(msg.sender == chairperson, "Only chairperson can give right to vote.");
         require(!voters[voter].voted, "The voter already voted.");
-        require(voters[voter].weight == 0);
+        require(voters[voter].weight == 0, "The voter already owned right.");
         voters[voter].weight = 1;
     }
 
@@ -71,7 +71,7 @@ contract Ballot {
     // Computes the winning proposal
     function winningProposal() public view returns (uint winningProposal_) {
         uint winningVoteCount = 0;
-        for (uint p =0; p < proposals.length; p++) {
+        for (uint p = 0; p < proposals.length; p++) {
             if (proposals[p].voteCount > winningVoteCount) {
                 winningVoteCount = proposals[p].voteCount;
                 winningProposal_ = p;
